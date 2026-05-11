@@ -1,19 +1,25 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
  
-const products = [
-  { name: "La Trinidad Strawberries", cat: "food", image: "images/La Trinidad Strawberries.jpg", emoji: "🍓", bg: "#fbe8e8", badge: "Seasonal", price: "₱80–150/tray", desc: "Plump, sweet strawberries grown in the cool highland farms of La Trinidad, Benguet — a Baguio icon. Best enjoyed fresh, as jam, or dipped in chocolate at the farm." },
-  { name: "Benguet Coffee", cat: "food", image: "images/Benguet Coffee.jpg", emoji: "☕", bg: "#f0e8da", badge: "Artisan", price: "₱180–350/250g", desc: "Single-origin Arabica from the Cordillera mountains. Rich, earthy, and smooth with minimal bitterness. Often grown by indigenous Kankana-ey farmers in remote mountain communities." },
-  { name: "Ube Jam (Good Shepherd)", cat: "sweets", image: "images/Ube Jam.jpg", emoji: "🫚", bg: "#ede8f5", badge: "Best Seller", price: "₱120–200/jar", desc: "The legendary ube jam made by the Good Shepherd sisters since the 1960s. Creamy, sweet, and irreplaceable. Pairs perfectly with pandesal, toast, or eaten straight from the jar." },
-  { name: "Peanut Brittle", cat: "sweets", image: "images/Peanut Brittle.jpg", emoji: "🥜", bg: "#faf0da", badge: "Classic", price: "₱60–120/pack", desc: "Crunchy, golden peanut brittle made with local Benguet peanuts. A timeless pasalubong for family and friends. Also available in cashew and mixed nut varieties." },
-  { name: "Igorot Woven Bags", cat: "crafts", image: "images/Igorot Woven Bags.jpg", emoji: "🧺", bg: "#e8f0e8", badge: "Handmade", price: "₱350–1,200", desc: "Hand-woven baskets and bags using traditional Cordillera weaving techniques passed down through generations. Each piece is unique — no two are identical." },
-  { name: "Baguio Cut Flowers", cat: "flowers", image: "images/Cut Flowers.jpg", emoji: "🌷", bg: "#fce8f0", badge: "Fresh Daily", price: "₱100–500/bundle", desc: "Chrysanthemums, roses, lilies, sunflowers, and more — grown in the cool highland air for vivid color and long shelf life. Available year-round at the city market." },
-  { name: "Cordillera Silver Jewelry", cat: "crafts", image: "images/Jewelry.jpg", emoji: "💍", bg: "#e8ecf5", badge: "Heritage", price: "₱200–1,500", desc: "Sterling silver jewelry with indigenous Igorot motifs — suns, mountains, and rice terraces. Each piece tells a story of highland culture and is often stamped by the artisan who made it." },
-  { name: "Sylvanas", cat: "sweets", image: "images/Sylvanas.jpg", emoji: "🍪", bg: "#f5f0e8", badge: "Iconic", price: "₱180–280/box", desc: "Buttery meringue wafers sandwiched with French buttercream and rolled in toasted cashew bits. A Baguio dessert you simply cannot find anywhere else in the Philippines." },
-  { name: "Baguio Vegetables", cat: "food", image: "images/Baguio Vegetables.jpg", emoji: "🥦", bg: "#e8f5e8", badge: "Farm Fresh", price: "₱20–80/kilo", desc: "Broccoli, carrots, snap peas, chayote, highland lettuce, and more — grown without the scorching lowland heat. Noticeably crisper and sweeter than their lowland equivalents." },
-  { name: "Ikat Woven Textiles", cat: "crafts", image: "images/Woven Textiles.jpg", emoji: "🧶", bg: "#f0e8f5", badge: "Cultural", price: "₱500–2,500", desc: "Vibrant ikat-dyed fabrics woven by Cordillera artisans on traditional backstrap looms. Used for blankets, table runners, scarves, and traditional Igorot clothing." },
-  { name: "Rose Products", cat: "flowers", image: "images/Rose Products.jpg", emoji: "🌹", bg: "#fce8ec", badge: "Fragrant", price: "₱150–400", desc: "Rose-infused soaps, lotions, potpourri, and dried petals. Made from the highland blooms of Baguio flower farms. Popular as gifts and spa items." },
-  { name: "Ukay-Ukay Finds", cat: "crafts", image: "images/Ukay Ukay Finds.jpg", emoji: "👗", bg: "#e8ece8", badge: "Thrift", price: "₱50–500", desc: "Baguio's famous secondhand bazaars — especially around Session Road and Magsaysay Avenue — offer vintage and international clothing at remarkably low prices. A thrifter's paradise." },
+const productEntries = [
+  { name: "La Trinidad Strawberries", cat: "food", image: "/images/La Trinidad Strawberries.jpg", emoji: "🍓", bg: "#fbe8e8", badge: "Seasonal", price: "₱80–150/tray", desc: "Plump, sweet strawberries grown in the cool highland farms of La Trinidad, Benguet — a Baguio icon. Best enjoyed fresh, as jam, or dipped in chocolate at the farm." },
+  { name: "Benguet Coffee", cat: "food", image: "/images/Benguet Coffee.jpg", emoji: "☕", bg: "#f0e8da", badge: "Artisan", price: "₱180–350/250g", desc: "Single-origin Arabica from the Cordillera mountains. Rich, earthy, and smooth with minimal bitterness. Often grown by indigenous Kankana-ey farmers in remote mountain communities." },
+  { name: "Ube Jam (Good Shepherd)", cat: "sweets", image: "/images/Ube Jam.jpg", emoji: "🫚", bg: "#ede8f5", badge: "Best Seller", price: "₱120–200/jar", desc: "The legendary ube jam made by the Good Shepherd sisters since the 1960s. Creamy, sweet, and irreplaceable. Pairs perfectly with pandesal, toast, or eaten straight from the jar." },
+  { name: "Peanut Brittle", cat: "sweets", image: "/images/Peanut Brittle.jpg", emoji: "🥜", bg: "#faf0da", badge: "Classic", price: "₱60–120/pack", desc: "Crunchy, golden peanut brittle made with local Benguet peanuts. A timeless pasalubong for family and friends. Also available in cashew and mixed nut varieties." },
+  { name: "Igorot Woven Bags", cat: "crafts", image: "/images/Igorot Woven Bags.jpg", emoji: "🧺", bg: "#e8f0e8", badge: "Handmade", price: "₱350–1,200", desc: "Hand-woven baskets and bags using traditional Cordillera weaving techniques passed down through generations. Each piece is unique — no two are identical." },
+  { name: "Baguio Cut Flowers", cat: "flowers", image: "/images/Cut Flowers.jpg", emoji: "🌷", bg: "#fce8f0", badge: "Fresh Daily", price: "₱100–500/bundle", desc: "Chrysanthemums, roses, lilies, sunflowers, and more — grown in the cool highland air for vivid color and long shelf life. Available year-round at the city market." },
+  { name: "Cordillera Silver Jewelry", cat: "crafts", image: "/images/Jewelry.jpg", emoji: "💍", bg: "#e8ecf5", badge: "Heritage", price: "₱200–1,500", desc: "Sterling silver jewelry with indigenous Igorot motifs — suns, mountains, and rice terraces. Each piece tells a story of highland culture and is often stamped by the artisan who made it." },
+  { name: "Sylvanas", cat: "sweets", image: "/images/Sylvanas.jpg", emoji: "🍪", bg: "#f5f0e8", badge: "Iconic", price: "₱180–280/box", desc: "Buttery meringue wafers sandwiched with French buttercream and rolled in toasted cashew bits. A Baguio dessert you simply cannot find anywhere else in the Philippines." },
+  { name: "Baguio Vegetables", cat: "food", image: "/images/Baguio Vegetables.jpg", emoji: "🥦", bg: "#e8f5e8", badge: "Farm Fresh", price: "₱20–80/kilo", desc: "Broccoli, carrots, snap peas, chayote, highland lettuce, and more — grown without the scorching lowland heat. Noticeably crisper and sweeter than their lowland equivalents." },
+  { name: "Ikat Woven Textiles", cat: "crafts", image: "/images/Woven Textiles.jpg", emoji: "🧶", bg: "#f0e8f5", badge: "Cultural", price: "₱500–2,500", desc: "Vibrant ikat-dyed fabrics woven by Cordillera artisans on traditional backstrap looms. Used for blankets, table runners, scarves, and traditional Igorot clothing." },
+  { name: "Rose Products", cat: "flowers", image: "/images/Rose Products.jpg", emoji: "🌹", bg: "#fce8ec", badge: "Fragrant", price: "₱150–400", desc: "Rose-infused soaps, lotions, potpourri, and dried petals. Made from the highland blooms of Baguio flower farms. Popular as gifts and spa items." },
+  { name: "Ukay-Ukay Finds", cat: "crafts", image: "/images/Ukay Ukay Finds.jpg", emoji: "👗", bg: "#e8ece8", badge: "Thrift", price: "₱50–500", desc: "Baguio's famous secondhand bazaars — especially around Session Road and Magsaysay Avenue — offer vintage and international clothing at remarkably low prices. A thrifter's paradise." },
 ];
+
+export const products = productEntries.map((product) => ({
+  ...product,
+  slug: product.slug || product.name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, ""),
+}));
  
 const markets = [
   { icon: "🏪", name: "Baguio City Market", info: "The main public market. Best for vegetables, fruits, and fresh produce. Open daily." },
@@ -40,7 +46,7 @@ const filterOptions = [
   { label: "Sweets", value: "sweets" },
 ];
  
-const styles = `
+export const styles = `
   @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap');
  
   .bf-root *, .bf-root *::before, .bf-root *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -182,34 +188,9 @@ const styles = `
   }
 `;
  
-function Modal({ product, onClose }) {
-  useEffect(() => {
-    const handler = (e) => { if (e.key === "Escape") onClose(); };
-    window.addEventListener("keydown", handler);
-    return () => window.removeEventListener("keydown", handler);
-  }, [onClose]);
- 
-  if (!product) return null;
-  return (
-    <div className="bf-modal-overlay open" onClick={(e) => e.target.classList.contains("bf-modal-overlay") && onClose()}>
-      <div className="bf-modal">
-        <button className="bf-modal-close" onClick={onClose}>✕</button>
-        {product.image
-          ? <img src={product.image} alt={product.name} className="bf-modal-img" />
-          : <div className="bf-modal-emoji">{product.emoji}</div>
-        }
-        <div className="bf-modal-cat">{product.cat}</div>
-        <div className="bf-modal-name">{product.name}</div>
-        <div className="bf-modal-desc">{product.desc}</div>
-        <div className="bf-modal-price">{product.price}</div>
-      </div>
-    </div>
-  );
-}
- 
 export default function BaguioFinds() {
   const [filter, setFilter] = useState("all");
-  const [selectedProduct, setSelectedProduct] = useState(null);
+  const navigate = useNavigate();
  
   const filtered = filter === "all" ? products : products.filter((p) => p.cat === filter);
  
@@ -258,7 +239,7 @@ export default function BaguioFinds() {
           </div>
           <div className="bf-products-grid">
             {filtered.map((p, i) => (
-              <div key={i} className="bf-card" onClick={() => setSelectedProduct(p)}>
+              <div key={i} className="bf-card" onClick={() => navigate(`/product/${p.slug}`)}>
                 <div className="bf-card-img" style={{ background: p.bg }}>
                   {p.image
                     ? <img src={p.image} alt={p.name} />
@@ -346,7 +327,6 @@ export default function BaguioFinds() {
         <p>A celebration of the Summer Capital's finest local products · Made with highland pride 🌿</p>
       </footer>
  
-      {selectedProduct && <Modal product={selectedProduct} onClose={() => setSelectedProduct(null)} />}
     </div>
   );
 }
