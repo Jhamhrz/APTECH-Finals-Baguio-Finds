@@ -4,7 +4,7 @@ import ProductDetail from './ProductDetail'
 
 function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/APTECH-Finals-Baguio-Finds">
       <Routes>
         <Route path="/" element={<BaguioFinds />} />
         <Route path="/product/:productSlug" element={<ProductDetail />} />

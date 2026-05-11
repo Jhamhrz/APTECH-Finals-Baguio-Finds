@@ -45,7 +45,7 @@ export default function ProductDetail() {
       <section className="bf-section bf-products" style={{ paddingTop: '4rem' }}>
         <div style={{ maxWidth: 980, margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem', alignItems: 'start' }}>
           <div style={{ borderRadius: '1rem', overflow: 'hidden', boxShadow: '0 30px 80px rgba(0,0,0,0.12)' }}>
-            <img src={product.image} alt={product.name} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+            <img src={`${import.meta.env.BASE_URL}${product.image}`} alt={product.name} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
           </div>
           <div style={{ background: '#fff', borderRadius: '1rem', padding: '2rem', boxShadow: '0 20px 50px rgba(0,0,0,0.08)' }}>
             <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1rem', color: '#4a7c5c', fontSize: '0.9rem', textTransform: 'uppercase', letterSpacing: '0.12em' }}>
